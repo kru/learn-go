@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/kru/learn-go/core/util"
 )
 
 func countCandles(candles []int32) int32 {
@@ -34,23 +36,23 @@ func BirthdayCakeCandles() {
 		return
 	}
 	stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
-	CheckError(err)
+	util.CheckError(err)
 
 	defer stdout.Close()
 
 	writer := bufio.NewWriterSize(stdout, 16*1024*1024)
 
-	candlesCount, err := strconv.ParseInt(strings.TrimSpace(ReadLine(reader)), 10, 64)
+	candlesCount, err := strconv.ParseInt(strings.TrimSpace(util.ReadLine(reader)), 10, 64)
 
-	CheckError(err)
+	util.CheckError(err)
 
-	candlesTemp := strings.Split(strings.TrimSpace(ReadLine(reader)), " ")
+	candlesTemp := strings.Split(strings.TrimSpace(util.ReadLine(reader)), " ")
 
 	var candles []int32
 
 	for i := 0; i < int(candlesCount); i++ {
 		candlesItemTemp, err := strconv.ParseInt(candlesTemp[i], 10, 64)
-		CheckError(err)
+		util.CheckError(err)
 		candlesItem := int32(candlesItemTemp)
 		candles = append(candles, candlesItem)
 	}

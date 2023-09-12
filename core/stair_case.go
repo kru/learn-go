@@ -3,33 +3,19 @@ package core
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/kru/learn-go/core/util"
 )
-
-func ReadLine(reader *bufio.Reader) string {
-	str, _, err := reader.ReadLine()
-	if err == io.EOF {
-		return ""
-	}
-
-	return strings.TrimRight(string(str), "\r\n")
-}
-
-func CheckError(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
 
 func Staircase() {
 	reader := bufio.NewReaderSize(os.Stdin, 16*1024*1024)
 
-	nTemp, err := strconv.ParseInt(strings.TrimSpace(ReadLine(reader)), 10, 64)
+	nTemp, err := strconv.ParseInt(strings.TrimSpace(util.ReadLine(reader)), 10, 64)
 
-	CheckError(err)
+	util.CheckError(err)
 	n := int32(nTemp)
 	stair := strings.Repeat("#", int(n))
 

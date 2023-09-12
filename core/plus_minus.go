@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/kru/learn-go/core/util"
 )
 
 func NumberRatio(arr []int32) {
@@ -29,17 +31,17 @@ func NumberRatio(arr []int32) {
 func PlusMinus() {
 	reader := bufio.NewReaderSize(os.Stdin, 16*1024*1024)
 
-	nTemp, err := strconv.ParseInt(strings.TrimSpace(ReadLine(reader)), 10, 64)
-	CheckError(err)
+	nTemp, err := strconv.ParseInt(strings.TrimSpace(util.ReadLine(reader)), 10, 64)
+	util.CheckError(err)
 	n := int32(nTemp)
 
-	arrTemp := strings.Split(strings.TrimSpace(ReadLine(reader)), " ")
+	arrTemp := strings.Split(strings.TrimSpace(util.ReadLine(reader)), " ")
 
 	var arr []int32
 
 	for i := 0; i < int(n); i++ {
 		arrItemTemp, err := strconv.ParseInt(arrTemp[i], 10, 64)
-		CheckError(err)
+		util.CheckError(err)
 		arrItem := int32(arrItemTemp)
 		arr = append(arr, arrItem)
 	}

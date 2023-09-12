@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/kru/learn-go/core/util"
 )
 
 func removeFormat(s string) string {
@@ -65,13 +67,13 @@ func TimeConversion() {
 		return
 	}
 	stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
-	CheckError(err)
+	util.CheckError(err)
 
 	defer stdout.Close()
 
 	writer := bufio.NewWriterSize(stdout, 16*1024*1024)
 
-	s := ReadLine(reader)
+	s := util.ReadLine(reader)
 
 	result := Convert(s)
 	fmt.Printf("result %s\n", result)

@@ -6,6 +6,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/kru/learn-go/core/util"
 )
 
 func sumArr(idx int64, arr []int32) int64 {
@@ -20,7 +22,7 @@ func sumArr(idx int64, arr []int32) int64 {
 
 func Minmaxsum() {
 	reader := bufio.NewReaderSize(os.Stdin, 16*1024*1024)
-	arrTemp := strings.Split(strings.TrimSpace(ReadLine(reader)), " ")
+	arrTemp := strings.Split(strings.TrimSpace(util.ReadLine(reader)), " ")
 
 	if len(arrTemp) != 5 {
 		fmt.Println("Error: Input must be 5 integer space separated, e.g 1 2 3 6 9")
@@ -30,7 +32,7 @@ func Minmaxsum() {
 
 	for i := 0; i < 5; i++ {
 		arrItemTemp, err := strconv.ParseInt(arrTemp[i], 10, 64)
-		CheckError(err)
+		util.CheckError(err)
 		arrItem := int32(arrItemTemp)
 		arr = append(arr, arrItem)
 	}
