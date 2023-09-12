@@ -55,7 +55,7 @@ func FlippingBits(n int64) int64 {
 
 	fmt.Println()
 	f := binarySum(res)
-	fmt.Printf("flipped: %v\n", f)
+	fmt.Printf("summed flipped bits: %v\n", f)
 	fmt.Println()
 	return f
 }
