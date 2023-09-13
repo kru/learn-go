@@ -30,7 +30,6 @@ func (d *DoublyLinkedList) AddFrontNode(data string) {
 		d.head = node
 	}
 	d.ln++
-	return
 }
 
 func (d *DoublyLinkedList) AddBackNode(data string) {
@@ -40,16 +39,11 @@ func (d *DoublyLinkedList) AddBackNode(data string) {
 		d.head = node
 		d.tail = node
 	} else {
-		currentNode := d.head
-		for currentNode.next != nil {
-			currentNode = currentNode.next
-		}
 		node.prev = d.tail
 		d.tail.next = node
 		d.tail = node
 	}
 	d.ln++
-	return
 }
 
 func (d *DoublyLinkedList) Size() int {
@@ -58,7 +52,7 @@ func (d *DoublyLinkedList) Size() int {
 
 func (d *DoublyLinkedList) TraverseForward() error {
 	if d.head == nil {
-		return fmt.Errorf("Error no double linked list data %v\n", d.head)
+		return fmt.Errorf("eror no double linked list data %v", d.head)
 	}
 
 	fmt.Println("TraverseForward")
@@ -86,23 +80,79 @@ func (d *DoublyLinkedList) TraverseReverse() error {
 	return nil
 }
 
-func (d *DoublyLinkedList) Reverse() error {
+func ReverseDll(d *DoublyLinkedList) (*DoublyLinkedList, error) {
 	if d.tail == nil {
-		return fmt.Errorf("can not reverse DLL, no data")
+		return nil, fmt.Errorf("can not reverse DLL, no data")
 	}
 	var clone = &DoublyLinkedList{}
 
 	temp := d.tail
-	fmt.Printf("TEMP: %v\n", temp.prev)
+
 	for temp.prev != nil {
+		nd := &Node{data: temp.data}
 		if clone.head == nil {
-			clone.head = temp
-			clone.tail = temp
+			clone.head = nd
+			clone.tail = nd
+			fmt.Printf("FIRST %+v\n", clone.head)
 		} else {
-			temp.prev = clone.tail
-			clone.tail.next = temp
+			nd.prev = clone.tail
+			clone.tail.next = nd
+			clone.tail = nd
 		}
+		clone.ln++
+
 		temp = temp.prev
 	}
-	return nil
+
+	if temp.prev == nil {
+		nd := &Node{data: temp.data}
+		nd.prev = clone.tail
+		clone.tail.next = nil
+		clone.tail = nd
+		fmt.Printf("temp: %+v\n", clone.tail)
+	}
+
+	return clone, nil
+}
+
+func InitDLL() {
+	dll := InitDoublyLinkedList()
+
+	fmt.Printf("Size of doubly linked ist: %d\n", dll.Size())
+
+	fmt.Printf("Add Front Node: C\n")
+	dll.AddFrontNode("C")
+
+	fmt.Printf("Add End Node: D\n")
+	dll.AddBackNode("D")
+
+	fmt.Printf("Add Front Node: B\n")
+	dll.AddFrontNode("B")
+
+	fmt.Printf("Add End Node: E\n")
+	dll.AddBackNode("E")
+
+	fmt.Printf("Add Front Node: A\n")
+	dll.AddFrontNode("A")
+
+	fmt.Printf("Add End Node: F\n")
+	dll.AddBackNode("F")
+
+	fmt.Printf("Add End Node: G\n")
+	dll.AddBackNode("G")
+
+	fmt.Printf("Size of doubly linked ist: %d\n", dll.Size())
+
+	dll.TraverseForward()
+	dll.TraverseReverse()
+
+	fmt.Println("Reversing DLL")
+	clone, err := ReverseDll(dll)
+
+	if err != nil {
+		fmt.Println("Reversing Error")
+	}
+
+	clone.TraverseForward()
+	clone.TraverseReverse()
 }
