@@ -23,24 +23,6 @@ func FindAllIntUnder1k() map[int][]int {
 			}
 		}
 	}
-	//for c := 0; c <= max; c++ {
-	//	for d := 0; d <= max; d++ {
-	//		for a := 0; a <= max; a++ {
-	//			for b := 0; b <= max; b++ {
-	//				if math.Pow(float64(a), 3)+math.Pow(float64(b), 3) == math.Pow(float64(c), 3)+math.Pow(float64(d), 3) {
-	//					fmt.Printf("%d + %d = %d + %d\n", a, b, c, d)
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-	//var pair []int32
-	//result := int32(math.Pow(float64(c), 3)) + int32(math.Pow(float64(d), 3))
-	//if result > 0 && int(result) <= max {
-	//	pair = append(pair, int32(c), int32(d))
-	//	pairs = append(pairs, pair)
-	//}
 
 	return pairs
 }
