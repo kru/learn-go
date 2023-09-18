@@ -7,21 +7,17 @@ import (
 )
 
 func main() {
-	A := []int32{3, 1, 2}
-	B := []int32{7, 8, 9}
-	res := core.TwoArrays(10, A, B)
+	S := []int32{2, 2, 1, 3, 2}
+	res := core.ChocholateBars(S, 4, 2)
 
 	fmt.Println(res)
 
-	C := []int32{1, 2, 2, 1}
-	D := []int32{3, 3, 3, 4}
-	r := core.TwoArrays(5, C, D)
+	B := []int32{4}
+	re := core.ChocholateBars(B, 4, 1)
+	fmt.Println(re)
+
+	C := []int32{2, 2, 2, 1, 3, 2, 2, 3, 3, 1, 4, 1, 3, 2, 2, 1, 2, 2, 4, 2, 2, 3, 5, 3, 4, 3, 2, 1, 4, 5, 4}
+	r := core.ChocholateBars(C, 10, 4)
 
 	fmt.Println(r)
-
-	E := []int32{3, 6, 8, 5, 9, 9, 4, 8, 4, 7}
-	F := []int32{5, 1, 0, 1, 6, 4, 1, 7, 4, 3}
-	re := core.TwoArrays(9, E, F)
-
-	fmt.Println(re)
 }
