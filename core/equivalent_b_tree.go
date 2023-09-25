@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
-	"time"
 )
 
 type Tree struct {
@@ -49,49 +48,40 @@ func (t *Tree) String() string {
 	return "(" + s + ")"
 }
 
+func (t *Tree) Traverse() {
+	if t.Left != nil {
+		fmt.Println(t.Left.Value)
+		t.Left.Traverse()
+		// return t.Left.Value
+	}
+
+	if t.Right != nil {
+		fmt.Println(t.Right.Value)
+		t.Right.Traverse()
+		// return t.Right.Value
+	}
+}
+
+func (t *Tree) InOrder(tree *Tree) {
+	if tree == nil {
+		return
+	} else {
+		t.InOrder(tree.Left)
+		fmt.Print(tree.Value, " ")
+		t.InOrder(tree.Right)
+	}
+}
+
 func Walk(t *Tree, ch chan int32) {
 	if t == nil {
 		fmt.Println("tree is nil")
 		return
 	}
 	fmt.Println(t)
+	fmt.Println("root", t.Value)
 
-	ch <- t.Value
-
-	tl := t.Left
-	for tl != nil {
-		time.Sleep(100 * time.Millisecond)
-		ch <- tl.Value
-		tlr := tl.Right
-		for tlr != nil {
-			ch <- tlr.Value
-			tlrl := tlr.Left
-			for tlrl != nil {
-				ch <- tlrl.Value
-				tlrl = tlrl.Left
-			}
-			tlr = tlr.Right
-		}
-		tl = tl.Left
-	}
-
-	tr := t.Right
-	for tr != nil {
-		time.Sleep(100 * time.Millisecond)
-		ch <- tr.Value
-		trl := tr.Left
-		for trl != nil {
-			ch <- trl.Value
-			trlr := trl.Right
-			for trlr != nil {
-				ch <- trlr.Value
-				trlr = trlr.Right
-			}
-			trl = trl.Left
-		}
-
-		tr = tr.Right
-	}
+	// t.Traverse()
+	t.InOrder(t)
 
 	close(ch)
 }
