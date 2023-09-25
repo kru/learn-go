@@ -7,17 +7,19 @@ import (
 )
 
 func main() {
-	S := []int32{2, 2, 1, 3, 2}
-	res := core.ChocholateBars(S, 4, 2)
 
-	fmt.Println(res)
+	tree := core.New(8)
+	ch := make(chan int32)
+	go core.Walk(tree, ch)
 
-	B := []int32{4}
-	re := core.ChocholateBars(B, 4, 1)
-	fmt.Println(re)
+	for val := range ch {
+		fmt.Println(val)
+	}
 
-	C := []int32{2, 2, 2, 1, 3, 2, 2, 3, 3, 1, 4, 1, 3, 2, 2, 1, 2, 2, 4, 2, 2, 3, 5, 3, 4, 3, 2, 1, 4, 5, 4}
-	r := core.ChocholateBars(C, 10, 4)
+	t1 := core.New(8)
+	t2 := core.New(8)
 
-	fmt.Println(r)
+	same := core.Same(t1, t2)
+	fmt.Println("t1 == t2", same)
+
 }
