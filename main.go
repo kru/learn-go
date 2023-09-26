@@ -1,25 +1,20 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/kru/learn-go/core"
 )
 
 func main() {
 
-	tree := core.New(8)
-	ch := make(chan int32)
-	core.Walk(tree, ch)
+	arr := []int32{3, 5, 6, 0, 7}
+	power := []int32{3, 1, 0, 2}
+	max := core.MaximizePower(arr, power)
+	fmt.Println(max)
 
-	// for val := range ch {
-	// 	fmt.Println(val)
-	// }
-
-	// t1 := core.New(8)
-	// t1.Traverse()
-	// fmt.Println(s)
-	// t2 := core.New(8)
-
-	// same := core.Same(t1, t2)
-	// fmt.Println("t1 == t2", same)
-
+	arr1 := []int32{2, 4, 2, 1, 6}
+	power1 := []int32{4, 1, 1, 3}
+	max1 := core.MaximizePower(arr1, power1)
+	fmt.Println(max1)
 }
