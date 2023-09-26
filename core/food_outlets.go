@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 type UserRating struct {
@@ -30,7 +31,7 @@ type Response struct {
 
 func (r *Response) fetchOutlets(city string, total int) error {
 	url := fmt.Sprintf("https://jsonmock.hackerrank.com/api/food_outlets?city=%s&page=%d", city, total)
-	fmt.Println(url)
+	// fmt.Println(url)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -73,10 +74,8 @@ func ViableOutlets(city string, maxCost int32) {
 
 	outlets = append(outlets, r.Data...)
 
-	// ch := make(chan Response, r.TotalPages-1)
 	for page < r.TotalPages {
 		if page > r.TotalPages {
-			// close(ch)
 			break
 		}
 		page += 1
@@ -84,15 +83,7 @@ func ViableOutlets(city string, maxCost int32) {
 		if r.Data != nil {
 			outlets = append(outlets, r.Data...)
 		}
-		// ch <- r.Data
-
 	}
-
-	// resp, err := json.Marshal(outlet)
-	// if err != nil {
-	// 	log.Fatalf("err while marshall response %+v", err)
-	// }
-	// fmt.Printf("result: %+v\n", string(resp))
 
 	for _, outlet := range outlets {
 		if outlet.EstimatedCost <= int(maxCost) {
@@ -100,4 +91,75 @@ func ViableOutlets(city string, maxCost int32) {
 		}
 	}
 
+}
+
+func getOutlets(city string, page int, ch chan Response) {
+	url := fmt.Sprintf("https://jsonmock.hackerrank.com/api/food_outlets?city=%s&page=%d", city, page)
+	fmt.Println(url)
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Fatalf("err initiate request %+v", err)
+		return
+	}
+
+	req.Header.Add("Content-Type", "application/json")
+	if err != nil {
+		log.Fatalf("err while doing request %+v", err)
+		return
+	}
+	req.Header.Add("Content-Type", "application/json")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Fatalf("err doing request %+v", err)
+		return
+	}
+
+	if resp.StatusCode >= 300 {
+		log.Fatalf("err with status code: %d, reason: %s\n", resp.StatusCode, http.StatusText(resp.StatusCode))
+		return
+	}
+
+	defer resp.Body.Close()
+
+	data := &Response{}
+	err = json.NewDecoder(resp.Body).Decode(&data)
+	if err != nil {
+		log.Fatalf("err decode response %+v", err)
+		return
+	}
+
+	ch <- *data
+	time.Sleep(10000 * time.Millisecond)
+	close(ch)
+}
+
+func BestOutlets(city string, maxCost int32) {
+	var outlets []Outlet
+	r := &Response{}
+
+	page := 1
+	r.fetchOutlets(city, page)
+
+	outlets = append(outlets, r.Data...)
+
+	ch := make(chan Response, r.TotalPages-1)
+
+	for page < r.TotalPages {
+		page += 1
+		go getOutlets(city, page, ch)
+	}
+
+	for resp := range ch {
+		if len(resp.Data) > 0 {
+			outlets = append(outlets, resp.Data...)
+		}
+	}
+
+	for _, outlet := range outlets {
+		if outlet.EstimatedCost <= int(maxCost) {
+			fmt.Println(outlet.Name, outlet.EstimatedCost)
+		}
+	}
 }

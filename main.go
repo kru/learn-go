@@ -6,5 +6,5 @@ import (
 
 func main() {
 
-	core.ViableOutlets("seattle", 100)
+	core.BestOutlets("seattle", 100)
 }
