@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 )
 
 type UserRating struct {
@@ -131,8 +130,6 @@ func getOutlets(city string, page int, ch chan Response) {
 	}
 
 	ch <- *data
-	time.Sleep(10000 * time.Millisecond)
-	close(ch)
 }
 
 func BestOutlets(city string, maxCost int32) {
@@ -146,10 +143,13 @@ func BestOutlets(city string, maxCost int32) {
 
 	ch := make(chan Response, r.TotalPages-1)
 
-	for page < r.TotalPages {
-		page += 1
-		go getOutlets(city, page, ch)
-	}
+	go func() {
+		for page < r.TotalPages {
+			page += 1
+			getOutlets(city, page, ch)
+		}
+		close(ch)
+	}()
 
 	for resp := range ch {
 		if len(resp.Data) > 0 {
