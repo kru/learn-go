@@ -3,7 +3,6 @@ package core
 import (
 	"fmt"
 	"math/rand"
-	"sort"
 )
 
 type Tree struct {
@@ -12,7 +11,7 @@ type Tree struct {
 	Right *Tree
 }
 
-func New(k int32) *Tree {
+func NewBTree(k int32) *Tree {
 	var t *Tree
 	for _, v := range rand.Perm(10) {
 		t = insert(t, int32(1+v)*k)
@@ -52,13 +51,11 @@ func (t *Tree) Traverse() {
 	if t.Left != nil {
 		fmt.Println(t.Left.Value)
 		t.Left.Traverse()
-		// return t.Left.Value
 	}
 
 	if t.Right != nil {
 		fmt.Println(t.Right.Value)
 		t.Right.Traverse()
-		// return t.Right.Value
 	}
 }
 
@@ -72,44 +69,42 @@ func (t *Tree) InOrder(tree *Tree) {
 	}
 }
 
-func Walk(t *Tree, ch chan int32) {
+func WalkBTree(t *Tree, ch chan int32) {
 	if t == nil {
-		fmt.Println("tree is nil")
 		return
+	} else {
+		WalkBTree(t.Left, ch)
+		ch <- t.Value
+		WalkBTree(t.Right, ch)
 	}
-	fmt.Println(t)
-	fmt.Println("root", t.Value)
-
-	// t.Traverse()
-	t.InOrder(t)
-
-	close(ch)
 }
 
-func Same(t1, t2 *Tree) bool {
-	var t1Vals, t2Vals foo
+func SameBTree(t1, t2 *Tree) bool {
+	var t1Vals, t2Vals []int32
 	ch1 := make(chan int32)
 	ch2 := make(chan int32)
+	go func() {
+		WalkBTree(t1, ch1)
+		close(ch1)
+	}()
 
-	go Walk(New(8), ch1)
-	go Walk(New(8), ch2)
+	go func() {
+		WalkBTree(t2, ch2)
+		close(ch2)
+	}()
 
-	for val := range ch1 {
-		fmt.Println("t1 Val", val)
-		t1Vals = append(t1Vals, val)
+	for v := range ch1 {
+		t1Vals = append(t1Vals, v)
 	}
-	for v := range ch2 {
-		t2Vals = append(t2Vals, v)
+
+	for x := range ch2 {
+		t2Vals = append(t2Vals, x)
 	}
-	sort.Sort(t1Vals)
-	sort.Sort(t2Vals)
-	fmt.Println("t1Vals", t1Vals)
-	fmt.Println("t2Vals", t2Vals)
-	for idx := range t1Vals {
-		if t1Vals[idx] != t2Vals[idx] {
+
+	for z := range t1Vals {
+		if t1Vals[z] != t2Vals[z] {
 			return false
 		}
 	}
-
 	return true
 }
