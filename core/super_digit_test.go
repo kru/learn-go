@@ -9,7 +9,7 @@ type digit struct {
 }
 
 var digits = []digit{
-	// {lg, 100000, 7},
+	{lg, 100000, 7},
 	{lg2, 100000, 9},
 }
 

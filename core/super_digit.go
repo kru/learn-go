@@ -33,14 +33,13 @@ func SuperDigit(n string, k int32) int32 {
 		return int32(r)
 	}
 
-	var m int32
+	var m int64
 	for j := 0; j < len(n); j++ {
 		in, err := strconv.Atoi(string(n[j]))
 		util.CheckError(err)
-		m += int32(in)
+		m += int64(in)
 	}
 
-	m = m * k
-	fmt.Println(m)
+	m = m * int64(k)
 	return recursiveSum(strconv.Itoa(int(m)), 0)
 }
