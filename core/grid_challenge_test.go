@@ -8,12 +8,12 @@ type gr struct {
 }
 
 var grs = []gr{
-	// {
-	// 	[]string{"ebacd", "fghij", "olmkn", "trpqs", "xywuv"}, "YES",
-	// },
-	// {
-	// 	[]string{"abc", "lmp", "qrt"}, "YES",
-	// },
+	{
+		[]string{"ebacd", "fghij", "olmkn", "trpqs", "xywuv"}, "YES",
+	},
+	{
+		[]string{"abc", "lmp", "qrt"}, "YES",
+	},
 	{
 		[]string{"mpxz", "abcd", "wlmf"}, "NO",
 	},
