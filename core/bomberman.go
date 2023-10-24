@@ -5,6 +5,30 @@ import (
 	"strings"
 )
 
+func fillBombs(grid []string) []string {
+	for row := range grid {
+		grid[row] = strings.ReplaceAll(grid[row], ".", "O")
+	}
+	return grid
+}
+
+func plantBombs(grid [][]rune) [][]rune {
+	for i := range grid {
+		for j := range grid[i] {
+			if grid[i][j] == 'O' {
+				grid[i][j] = '*'
+			} else {
+				grid[i][j] = 'O'
+			}
+		}
+	}
+	return grid
+}
+
+// top {0, 1}
+// right {1, 0}
+// bottom {0, -1}
+// left {-1, 0}
 var direction = [][]int{
 	{0, 1},
 	{1, 0},
@@ -12,102 +36,72 @@ var direction = [][]int{
 	{-1, 0},
 }
 
-func isPrime(n int32) bool {
-	if n <= 1 {
-		return false
-	}
-
-	i := int32(2)
-	for n > 2 {
-		if n%i == 0 {
-			return false
-		}
-		i++
-		n--
-	}
-	return true
-}
-
-func factor(n int32) int32 {
-	for i := int32(3); i < 1000; i++ {
-		if isPrime(i) && n%i == 1 {
-			return i
+func detonate(grid [][]rune) [][]rune {
+	for row := 0; row < len(grid); row++ {
+		for col := 0; col < len(grid[row]); col++ {
+			if grid[row][col] == '*' {
+				for _, dir := range direction {
+					x, y := row+dir[0], col+dir[1]
+					grid[row][col] = '.'
+					if x < 0 || y < 0 || x > len(grid)-1 || y > len(grid[row])-1 {
+						continue
+					}
+					if grid[x][y] == '*' {
+						continue
+					}
+					grid[x][y] = '.'
+				}
+			}
 		}
 	}
-	return n
-}
 
-func plantStrBombs(grid []string) []string {
-	for row := range grid {
-		grid[row] = strings.ReplaceAll(grid[row], ".", "O")
-	}
 	return grid
 }
 
-func plantRuneBoms(grid [][]rune) [][]rune {
-	for i := range grid {
-		for j := range grid[i] {
-			grid[i][j] = 'O'
+func convert(grid [][]rune) []string {
+	var strs []string
+
+	for row := 0; row < len(grid); row++ {
+		str := ""
+		for col := 0; col < len(grid[row]); col++ {
+			str = str + string(grid[row][col])
 		}
+		strs = append(strs, str)
 	}
-	return grid
+	return strs
 }
 
 // @TODO: Revisit for optimization O(n)
 // This problem not hard, but tricky
 func BomberMan(n int32, grid []string) []string {
-	bigNum := n
 	if n == 1 {
 		return grid
 	}
 
 	if n%2 == 0 {
-		return plantStrBombs(grid)
+		return fillBombs(grid)
 	}
-	n = factor(n)
-	fmt.Println("PRime", n, bigNum)
+
 	gridI := make([][]rune, len(grid))
 
 	for i := range gridI {
 		gridI[i] = []rune(grid[i])
 	}
 
-	for i := 2; i <= int(n); i++ {
-		if i%2 == 0 {
-			gridI = plantRuneBoms(gridI)
-			continue
-		}
-		for row := range gridI {
-			for col := range gridI[row] {
-				for _, dir := range direction {
-					if string(grid[row][col]) == "." {
-						continue
-					}
-					x, y := row+dir[0], col+dir[1]
-					gridI[row][col] = '.'
-					if x < 0 || y < 0 || x > len(grid)-1 || y > len(grid[row])-1 {
-						continue
-					}
-					gridI[x][y] = '.'
-				}
-			}
-		}
-		for row := range gridI {
-			s := ""
-			for col := range gridI[row] {
-				s += string(gridI[row][col])
-			}
-			grid[row] = s
-		}
-	}
+	gridI = plantBombs(gridI)
+	gridI = detonate(gridI)
 
-	for row := range gridI {
-		s := ""
-		for col := range gridI[row] {
-			s += string(gridI[row][col])
-		}
-		grid[row] = s
+	ans1 := convert(gridI)
+	fmt.Println(ans1)
+	if (n+1)%4 == 0 {
+		return ans1
 	}
+	gridI = plantBombs(gridI)
+	gridI = detonate(gridI)
 
+	ans2 := convert(gridI)
+	if (n+3)%4 == 0 {
+		return ans2
+	}
 	return grid
 }
