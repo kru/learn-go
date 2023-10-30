@@ -1,15 +1,24 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/kru/learn-go/core"
 )
 
 func main() {
 
-	res := core.SumXor(1000000000000000000)
-	fmt.Println(res)
+	// list := []int32{1, 3, 2, 5, 4}
+	// list := []int32{14, 5, 4, 2, 9, 8, 12}
+	// core.ListMinLength(list, 6)
+
+	queue := []int32{1, 2, 5, 3, 7, 8, 6, 4} // 7
+	// queue := []int32{1, 2, 5, 3, 4, 7, 8, 6} // 4
+	// queue := []int32{2, 5, 1, 3, 4}
+	core.MinimumBribes(queue)
+	// fmt.Println(queue)
+	// core.MinimumBribes(queue)
+	// core.InitDoublyLL()
+	// core.SumXor(1000000000000000000)
+
 	// s := core.BalancedSums([]int32{1, 1, 4, 1, 1})
 	// fmt.Println(s)
 	// queries := [][]int32{{1, 0, 5}, {1, 1, 7}, {1, 0, 3}, {2, 1, 0}, {2, 1, 1}}
