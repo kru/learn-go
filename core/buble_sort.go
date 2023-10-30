@@ -5,20 +5,24 @@ import (
 	"time"
 )
 
-func less(v int64, n int64) bool {
+type NumberList interface {
+	int64 | int32
+}
+
+func less[T NumberList](v, n T) bool {
 	return n < v
 }
 
-func isSorted(arr []int64) bool {
+func isSorted[T NumberList](arr []T) bool {
 	for j := 0; j < len(arr)-1; j++ {
-		if less(arr[j], arr[j+1]) {
+		if arr[j] < arr[j+1] {
 			return false
 		}
 	}
 	return true
 }
 
-func BubleSort(arr []int64) {
+func BubleSort[T NumberList](arr []T) {
 	st := time.Now().Nanosecond()
 	if isSorted(arr) {
 		et := time.Now().Nanosecond()
