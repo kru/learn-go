@@ -1,7 +1,5 @@
 package core
 
-import "fmt"
-
 // A - Z (65-90), a - z (97-122)
 func CaesarCipher(s string, k int32) string {
 	sb := ""
@@ -28,7 +26,5 @@ func CaesarCipher(s string, k int32) string {
 		}
 		sb += string(str)
 	}
-	fmt.Println(k)
-	fmt.Println(87 / 25)
 	return sb
 }

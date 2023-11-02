@@ -10,6 +10,7 @@ type str struct {
 var strs = []str{
 	{"nndNfdfdfdf", 4},
 	{"xrxdfghrraasdfghjklbb", 10},
+	{"xrxdfghrraasdfxgfhgjhkflbqb", 6},
 }
 
 func TestLongestSubString(t *testing.T) {

@@ -2,24 +2,24 @@ package core
 
 import "fmt"
 
-type Node struct {
+type node struct {
 	data string
-	prev *Node
-	next *Node
+	prev *node
+	next *node
 }
 
-type DoublyLinkedList struct {
+type doublyLinkedList struct {
 	ln   int
-	head *Node
-	tail *Node
+	head *node
+	tail *node
 }
 
-func InitDoublyLinkedList() *DoublyLinkedList {
-	return &DoublyLinkedList{}
+func InitDoublyLinkedList() *doublyLinkedList {
+	return &doublyLinkedList{}
 }
 
-func (d *DoublyLinkedList) AddFrontNode(data string) {
-	node := &Node{data: data}
+func (d *doublyLinkedList) AddFrontNode(data string) {
+	node := &node{data: data}
 
 	if d.head == nil {
 		d.head = node
@@ -32,8 +32,8 @@ func (d *DoublyLinkedList) AddFrontNode(data string) {
 	d.ln++
 }
 
-func (d *DoublyLinkedList) AddBackNode(data string) {
-	node := &Node{data: data}
+func (d *doublyLinkedList) AddBackNode(data string) {
+	node := &node{data: data}
 
 	if d.head == nil {
 		d.head = node
@@ -46,11 +46,11 @@ func (d *DoublyLinkedList) AddBackNode(data string) {
 	d.ln++
 }
 
-func (d *DoublyLinkedList) Size() int {
+func (d *doublyLinkedList) Size() int {
 	return d.ln
 }
 
-func (d *DoublyLinkedList) TraverseForward() error {
+func (d *doublyLinkedList) TraverseForward() error {
 	if d.head == nil {
 		return fmt.Errorf("eror no double linked list data %v", d.head)
 	}
@@ -65,7 +65,7 @@ func (d *DoublyLinkedList) TraverseForward() error {
 	return nil
 }
 
-func (d *DoublyLinkedList) TraverseReverse() error {
+func (d *doublyLinkedList) TraverseReverse() error {
 	if d.tail == nil {
 		return fmt.Errorf("error no double linked list tail")
 	}
@@ -80,16 +80,16 @@ func (d *DoublyLinkedList) TraverseReverse() error {
 	return nil
 }
 
-func ReverseDll(d *DoublyLinkedList) (*DoublyLinkedList, error) {
+func ReverseDll(d *doublyLinkedList) (*doublyLinkedList, error) {
 	if d.tail == nil {
 		return nil, fmt.Errorf("can not reverse DLL, no data")
 	}
-	var clone = &DoublyLinkedList{}
+	var clone = &doublyLinkedList{}
 
 	temp := d.tail
 
 	for temp.prev != nil {
-		nd := &Node{data: temp.data}
+		nd := &node{data: temp.data}
 		if clone.head == nil {
 			clone.head = nd
 			clone.tail = nd
@@ -105,7 +105,7 @@ func ReverseDll(d *DoublyLinkedList) (*DoublyLinkedList, error) {
 	}
 
 	if temp.prev == nil {
-		nd := &Node{data: temp.data}
+		nd := &node{data: temp.data}
 		nd.prev = clone.tail
 		clone.tail.next = nil
 		clone.tail = nd
