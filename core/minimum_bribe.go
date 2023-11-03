@@ -13,35 +13,29 @@ import (
 // https://www.hackerrank.com/challenges/one-month-preparation-kit-new-year-chaos/problem?isFullScreen=true&h_l=interview&playlist_slugs%5B%5D=preparation-kits&playlist_slugs%5B%5D=one-month-preparation-kit&playlist_slugs%5B%5D=one-month-week-three
 // This didn't pass test case input06 and input08, will revisit later
 func MinimumBribe(queue []int32) int32 {
-	// var op int32
-	d := make(map[int32]int)
-	var small int32
-	for i := 0; i < len(queue); i++ {
+	var op int32
+	for i := 0; i < len(queue)-1; i++ {
 		diff := queue[i] - int32(i+1)
 		if diff > 2 {
 			fmt.Println("Too chaotic")
 			return -1
 		}
 
-		if diff > 0 || diff < 0 {
-			// op += 1
-			queue[int(queue[i])-1], queue[i] = queue[i], queue[int(queue[i])-1]
-			d[queue[i]] += 1
-
-			i = i - 1
+		if diff > 0 {
+			op += diff
+		} else if diff <= 0 {
+			for j := i + 1; j <= len(queue)-1; j++ {
+				if queue[i] > queue[j] {
+					op += 1
+					break
+				}
+			}
 		}
-		if diff == 0 {
-			small++
-		}
-
 	}
-	fmt.Printf("%v\n", d)
+	// fmt.Printf("op %d, %v\n", op, queue)
 
-	var res int
-	for key := range d {
-		res += d[key]
-	}
-	return int32(res)
+	fmt.Println(op)
+	return int32(op)
 }
 
 // expected output from test case 6
