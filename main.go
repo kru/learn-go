@@ -1,12 +1,10 @@
 package main
 
-import (
-	"github.com/kru/learn-go/core"
-)
+import "github.com/kru/learn-go/core"
 
 func main() {
 
-	core.InitBribe()
+	core.InitClimbLeaderboard()
 	// list := []int32{1, 3, 2, 5, 4}
 	// list := []int32{14, 5, 4, 2, 9, 8, 12}
 	// core.ListMinLength(list, 6)
