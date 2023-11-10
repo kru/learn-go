@@ -6,37 +6,57 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/kru/learn-go/core/util"
 )
 
-// @TODO: to optimize
 // Use binary search with opposite order from end to start of the slice
 func findPosition(rank []int32, score int32) int32 {
-
 	var prev int32
 
-	if score > rank[0] {
+	if score >= rank[0] {
 		return 1
 	}
 
-	for i := 0; i < len(rank); i++ {
+	if score < rank[len(rank)-1] {
+		return int32(len(rank)) + 1
+	}
+	if score == rank[len(rank)-1] {
+		return int32(len(rank))
+	}
+
+	var start, end int
+
+	idx := len(rank) / 2
+
+	if score > rank[idx] {
+		start = idx + 1
+		end = 0
+	} else {
+		start = len(rank)
+		end = idx - 1
+	}
+
+	for i := start - 1; i >= end; i-- {
+
 		if score == rank[i] {
 			return int32(i) + 1
 		}
 
-		if score < prev && score > rank[i] {
-			return int32(i) + 1
+		if rank[i] > score && score > prev {
+			return int32(i + 2)
 		}
 		prev = rank[i]
 	}
 
-	//This mean score it lower than any score in rank
-	return int32(len(rank)) + 1
+	// Impossible to happen
+	return 0
 }
 
 // https://www.hackerrank.com/challenges/one-month-preparation-kit-climbing-the-leaderboard/problem?isFullScreen=true&h_l=interview&playlist_slugs%5B%5D=preparation-kits&playlist_slugs%5B%5D=one-month-preparation-kit&playlist_slugs%5B%5D=one-month-week-three
 func ClimbLeaderBoard(ranked, player []int32) []int32 {
+	st := time.Now()
 	var pos, rank []int32
 	occr := make(map[int32]int)
 	for i := range ranked {
@@ -45,14 +65,17 @@ func ClimbLeaderBoard(ranked, player []int32) []int32 {
 		}
 		occr[ranked[i]] += 1
 	}
+
 	for _, score := range player {
 		res := findPosition(rank, score)
 		pos = append(pos, res)
 	}
 	fmt.Println(pos)
+	fmt.Println(time.Since(st).Milliseconds(), "ms")
 	return pos
 }
 
+// Big input
 func InitClimbLeaderboard() {
 	f, err := os.Open("core/custom-input/input06-climb-leaderboard")
 	util.CheckError(err)
