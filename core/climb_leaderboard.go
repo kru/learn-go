@@ -11,7 +11,8 @@ import (
 	"github.com/kru/learn-go/core/util"
 )
 
-// Use binary search with opposite order from end to start of the slice
+// Use binary search approach with opposite order from end to start of the slice
+// @TODO: compare the performance versus sliding window approach
 func findPosition(rank []int32, score int32) int32 {
 	var prev int32
 

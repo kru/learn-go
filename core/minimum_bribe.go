@@ -6,14 +6,15 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/kru/learn-go/core/util"
 )
 
 // https://www.hackerrank.com/challenges/one-month-preparation-kit-new-year-chaos/problem?isFullScreen=true&h_l=interview&playlist_slugs%5B%5D=preparation-kits&playlist_slugs%5B%5D=one-month-preparation-kit&playlist_slugs%5B%5D=one-month-week-three
-// This didn't pass test case input06 and input08, will revisit later
 func MinimumBribe(queue []int32) int32 {
-	var op int32
+	st := time.Now()
+	var op, count int32
 	for i := 0; i < len(queue)-1; i++ {
 		diff := queue[i] - int32(i+1)
 		if diff > 2 {
@@ -24,17 +25,23 @@ func MinimumBribe(queue []int32) int32 {
 		if diff > 0 {
 			op += diff
 		} else if diff <= 0 {
-			for j := i + 1; j <= len(queue)-1; j++ {
+			// i + 15 make sure we only doing inner loop max 15 elements
+			// we could do another solution with looping from end of slice
+			for j := i + 1; j < len(queue) && j < i+15; j++ {
+				fmt.Println("J", j)
+				// fmt.Println(queue[i], queue[j], diff)
 				if queue[i] > queue[j] {
 					op += 1
+					count++
+					queue[i], queue[j] = queue[j], queue[i]
 					break
 				}
 			}
 		}
 	}
-	// fmt.Printf("op %d, %v\n", op, queue)
 
-	fmt.Println(op)
+	fmt.Println(time.Since(st).Milliseconds(), "ms")
+	fmt.Println()
 	return int32(op)
 }
 
