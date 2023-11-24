@@ -1,9 +1,5 @@
 package core
 
-import (
-	"fmt"
-)
-
 // Given a smaller strings S and a bigger string input
 // Design an algorithm to find all permutation of the shorter string
 // within the longer one.
@@ -20,15 +16,13 @@ func PermutationS(s, input string) int {
 		}
 	}
 
-	fmt.Println(smap)
-
 	k := len(s)
 	for i := 0; i < len(input) && i+k < len(input); i++ {
-		tmp := input[i : i+k]
 		if int32(input[i+k]) > bi {
 			i = i + k
 			continue
 		}
+		tmp := input[i : i+k]
 		if isPerm(smap, tmp) {
 			count++
 		}
