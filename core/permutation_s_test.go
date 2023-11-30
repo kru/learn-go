@@ -12,7 +12,7 @@ var perms1 = []perm1{
 	{
 		"abbc",
 		"cbabadcbbabbcbabaabccbabc",
-		6,
+		7,
 	},
 }
 
