@@ -21,19 +21,18 @@ func PermutationS(s, input string) int {
 	fmt.Println(len(input))
 	for i := 0; i < len(input) && i+k <= len(input); i++ {
 		end := i + k
+		var inputEnd int32
 		if i == len(input)-len(s) {
-			if isPerm(smap, input[i:end]) {
-				count++
-				return count
-			}
+			inputEnd = int32(input[end-1])
+		} else {
+			inputEnd = int32(input[end])
 		}
-		if int32(input[end]) > bi {
+		if int32(inputEnd) > bi {
 			i = end
 			continue
 		}
 		tmp := input[i:end]
 		if isPerm(smap, tmp) {
-			fmt.Println(tmp, i, string(input[i]))
 			count++
 		}
 	}
