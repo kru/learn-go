@@ -12,7 +12,7 @@ import "fmt"
 //	}
 func AdjacencyList(graph map[string][]string) {
 	// Depth First Traversal -> stack approach
-	// a,b,d
+	// a,b,d,f,c,e
 	dfs := func(gp map[string][]string, source string) {
 		stack := []string{source}
 		for len(stack) > 0 {
@@ -33,7 +33,8 @@ func AdjacencyList(graph map[string][]string) {
 	dfs(graph, "a")
 
 	// Breadth First Traversal -> queue approach
-	// a,b,c
+	// a,b,c ...
+	// a,c,b,d,e,f
 	bfs := func(gp map[string][]string, source string) {
 		queue := []string{source}
 		for len(queue) > 0 {
