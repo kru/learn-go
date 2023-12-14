@@ -28,7 +28,6 @@ func TrebuchetSpell() {
 	for _, line := range fileLines {
 		firstLast := ""
 
-		// str1 := ""
 		str3 := ""
 		str4 := ""
 		str5 := ""
@@ -52,7 +51,10 @@ func TrebuchetSpell() {
 			if i+ln5 <= len(line) {
 				str5 = line[i : i+ln5]
 			}
-			// fmt.Println(str3, str4, str5)
+
+			if len(str3) < 3 && len(str4) < 4 && len(str5) < 5 {
+				continue
+			}
 
 			if len(str3) == 3 {
 
@@ -106,7 +108,6 @@ func TrebuchetSpell() {
 		}
 
 		fl, _ := strconv.ParseInt(string(firstLast[0])+string(firstLast[len(firstLast)-1]), 10, 64)
-		fmt.Println(line, fl)
 
 		total += fl
 	}
