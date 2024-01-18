@@ -12,7 +12,7 @@ func countBars(slices []int32) int32 {
 // s is length of chocholate bar
 // d sum of s[i] based on m value
 // m length of combination from s
-func ChocholateBars(s []int32, d, m int32) int32 {
+func ChocholatBars(s []int32, d, m int32) int32 {
 	var total int32
 
 	if len(s) == 1 && d == s[0] {

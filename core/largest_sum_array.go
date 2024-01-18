@@ -2,14 +2,6 @@ package core
 
 import "fmt"
 
-func sum(list []int64) int64 {
-	var total int64
-	for i := 0; i < len(list); i++ {
-		total = total + list[i]
-	}
-	return total
-}
-
 func LargestSumArr(data []int64) int64 {
 	var maxSoFar, maxEndHere int64
 	var s, start, end int

@@ -69,6 +69,17 @@ func (t *Tree) InOrder(tree *Tree) {
 	}
 }
 
+// t := core.NewBTree(8)
+// ch := make(chan int32)
+//
+//	go func() {
+//		core.WalkBTree(t, ch)
+//		close(ch)
+//	}()
+//
+//	for val := range ch {
+//		fmt.Println(val)
+//	}
 func WalkBTree(t *Tree, ch chan int32) {
 	if t == nil {
 		return

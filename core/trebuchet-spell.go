@@ -25,7 +25,9 @@ func TrebuchetSpell() {
 	f.Close()
 
 	var total int64
+	var lns int
 	for _, line := range fileLines {
+		lns++
 		firstLast := ""
 
 		str3 := ""
@@ -110,6 +112,7 @@ func TrebuchetSpell() {
 		fl, _ := strconv.ParseInt(string(firstLast[0])+string(firstLast[len(firstLast)-1]), 10, 64)
 
 		total += fl
+		fmt.Println("line", lns, fl, total)
 	}
 
 	fmt.Println()

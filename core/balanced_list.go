@@ -10,6 +10,7 @@ func countRS(list []int32) int32 {
 	return total
 }
 
+// Find the source of this DSA to add more tests
 func BalancedSums(arr []int32) string {
 	if len(arr) == 1 {
 		return "YES"
